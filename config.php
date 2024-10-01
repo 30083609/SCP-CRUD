@@ -1,9 +1,9 @@
 <?php
 // config.php - Contains database connection details
 $servername = "localhost";
-$username = "a30083609_SCP-LoganPoole";
-$password = "~tK^2C91ghZL";
-$database = "a30083609_SCP";
+$username = "";
+$password = "";
+$database = "";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
