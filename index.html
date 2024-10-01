@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCP Database CRUD Interface</title>
+    <link rel="stylesheet" href="style/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="scripts/scripts.js" defer></script>
+</head>
+<body>
+
+    <!-- Header Section with Image and Title -->
+    <header>
+        <h1 class="title">
+            <a href="#" onclick="openTab(event, 'Home')" style="text-decoration: none; color: inherit;">SCP Database CRUD</a>
+        </h1>
+    </header>
+
+    <!-- CRUD interface container -->
+    <div id="crud-container" class="container">
+        <!-- Tab buttons -->
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Create')">Create</button>
+            <button class="tablinks" onclick="openTab(event, 'Read')">Read</button>
+            <button class="tablinks" onclick="openTab(event, 'Update')">Update</button>
+            <button class="tablinks" onclick="openTab(event, 'Delete')">Delete</button>
+        </div>
+
+        <!-- Home Tab for Image -->
+        <div id="Home" class="tabcontent">
+            <div class="image-container">
+                <img src="images/Entrance.webp" alt="Entrance" class="home-image">
+            </div>
+        </div>
+
+        <!-- Tab content for Create -->
+        <div id="Create" class="tabcontent">
+            <h3>Create New SCP</h3>
+            <form id="createForm" enctype="multipart/form-data">
+                <label for="scp_id">SCP ID:</label>
+                <input type="text" id="scp_id" name="scp_id" required><br>
+
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required><br>
+
+                <label for="object_class">Object Class:</label>
+                <input type="text" id="object_class" name="object_class" required><br>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea><br>
+
+                <label for="procedures">Special Containment Procedures:</label>
+                <textarea id="procedures" name="procedures" required></textarea><br>
+
+                <label for="image">Upload Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required><br>
+
+                <button type="submit">Create</button>
+                <button type="reset" class="clear-button">Clear All</button>
+            </form>
+            <div id="createResult" class="result-box"></div>
+        </div>
+
+        <!-- Tab content for Read -->
+        <div id="Read" class="tabcontent">
+            <h3>Read SCP</h3>
+            <form id="readForm">
+                <label for="search_scp_id">SCP ID:</label>
+                <input type="text" id="search_scp_id" name="scp_id" required><br>
+                <button type="submit">Read</button>
+                <button type="reset" class="clear-button">Clear All</button>
+            </form>
+
+            <!-- Button to display all SCP entries -->
+            <button id="displayAllButton">Display All SCPs</button>
+            <div id="allResults" class="result-box"></div>
+            <div id="readResult" class="result-box"></div>
+        </div>
+
+        <!-- Tab content for Update -->
+        <div id="Update" class="tabcontent">
+            <h3>Update SCP</h3>
+            <form id="updateForm" enctype="multipart/form-data">
+                <label for="update_scp_id">SCP ID:</label>
+                <input type="text" id="update_scp_id" name="scp_id" required><br>
+
+                <input type="checkbox" id="update_title_check" name="update_title_check">
+                <label for="update_title_check">Update Title:</label><br>
+                <input type="text" id="update_title" name="title" disabled><br>
+
+                <input type="checkbox" id="update_object_class_check" name="update_object_class_check">
+                <label for="update_object_class_check">Update Object Class:</label><br>
+                <input type="text" id="update_object_class" name="object_class" disabled><br>
+
+                <input type="checkbox" id="update_description_check" name="update_description_check">
+                <label for="update_description_check">Update Description:</label><br>
+                <textarea id="update_description" name="description" disabled></textarea><br>
+
+                <input type="checkbox" id="update_procedures_check" name="update_procedures_check">
+                <label for="update_procedures_check">Update Special Containment Procedures:</label><br>
+                <textarea id="update_procedures" name="procedures" disabled></textarea><br>
+
+                <input type="checkbox" id="update_image_check" name="update_image_check">
+                <label for="update_image_check">Update Image:</label><br>
+                <input type="file" id="update_image" name="image" accept="image/*" disabled><br>
+
+                <button type="submit">Update</button>
+                <button type="reset" class="clear-button">Clear All</button>
+            </form>
+            <div id="updateResult" class="result-box"></div>
+        </div>
+
+        <!-- Tab content for Delete -->
+        <div id="Delete" class="tabcontent">
+            <h3>Delete SCP</h3>
+            <form id="deleteForm">
+                <label for="delete_scp_id">SCP ID:</label>
+                <input type="text" id="delete_scp_id" name="scp_id" required>
+                <button type="submit">Delete</button>
+                <button type="reset" class="clear-button">Clear All</button>
+            </form>
+            <div id="deleteResult" class="result-box"></div>
+        </div>
+    </div>
+
+</body>
+</html>
