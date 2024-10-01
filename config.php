@@ -1,6 +1,6 @@
 <?php
 // config.php - Contains database connection details
-$servername = "localhost";
+$servername = "";
 $username = "";
 $password = "";
 $database = "";
