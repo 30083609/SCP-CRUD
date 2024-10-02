@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCP Database CRUD Interface</title>
     <link rel="stylesheet" href="style/styles.css">
+
+    <!-- Load jQuery first -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Load custom script after jQuery -->
     <script src="scripts/scripts.js" defer></script>
 </head>
 <body>
@@ -13,7 +17,7 @@
     <!-- Header Section with Image and Title -->
     <header>
         <h1 class="title">
-            <a href="#" onclick="openTab(event, 'Home')" style="text-decoration: none; color: inherit;">SCP Database CRUD</a>
+            <a href="index.html" style="text-decoration: none; color: inherit;">SCP Database CRUD</a>
         </h1>
     </header>
 
@@ -21,10 +25,10 @@
     <div id="crud-container" class="container">
         <!-- Tab buttons -->
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Create')">Create</button>
-            <button class="tablinks" onclick="openTab(event, 'Read')">Read</button>
-            <button class="tablinks" onclick="openTab(event, 'Update')">Update</button>
-            <button class="tablinks" onclick="openTab(event, 'Delete')">Delete</button>
+            <button class="tablinks" data-tab="Create">Create</button>
+            <button class="tablinks" data-tab="Read">Read</button>
+            <button class="tablinks" data-tab="Update">Update</button>
+            <button class="tablinks" data-tab="Delete">Delete</button>
         </div>
 
         <!-- Home Tab for Image -->
@@ -69,7 +73,7 @@
                 <label for="search_scp_id">SCP ID:</label>
                 <input type="text" id="search_scp_id" name="scp_id" required><br>
                 <button type="submit">Read</button>
-                <button type="reset" class="clear-button">Clear All</button>
+                <button type="reset" class="clear-button">Clear</button>
             </form>
 
             <!-- Button to display all SCP entries -->
@@ -118,7 +122,7 @@
                 <label for="delete_scp_id">SCP ID:</label>
                 <input type="text" id="delete_scp_id" name="scp_id" required>
                 <button type="submit">Delete</button>
-                <button type="reset" class="clear-button">Clear All</button>
+                <button type="reset" class="clear-button">Clear</button>
             </form>
             <div id="deleteResult" class="result-box"></div>
         </div>

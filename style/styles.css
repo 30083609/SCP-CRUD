@@ -7,14 +7,27 @@ body {
     padding: 0;
 }
 
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 2.5em;
+    text-shadow: 0px 0px 5px rgba(0, 255, 0, 0.8);
+    cursor: pointer;
+    user-select: none; /* Prevent text selection */
+}
+
+/* Center and style the image */
 .image-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
     margin-bottom: 20px;
-    width:auto;
-    height:auto;
+    width: auto;
+    height: auto;
 }
 
 .home-image {
@@ -25,20 +38,22 @@ body {
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
 
-.title {
-    font-size: 2.5em;
-    text-shadow: 0px 0px 5px rgba(0, 255, 0, 0.8);
-    cursor: pointer;
+    .home-image {
+        width: 100%;
+        height: auto;
+    }
 }
 
 .container {
+    width: 600px;
+    height: auto;
     margin: 0 auto;
-    width: 80%;
     background-color: #111;
     border-radius: 10px;
     padding: 20px;
@@ -57,13 +72,12 @@ header {
 .tab button {
     background-color: #00ff00;
     color: black;
-    padding: 10px 16px;  /* Same padding for all buttons */
+    padding: 10px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin: 5px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 10px; /* Added more spacing */
 }
 
 .tab button:hover {
@@ -82,6 +96,7 @@ header {
 .tabcontent {
     display: none;
     padding: 20px;
+    text-align: center;
 }
 
 .tabcontent.active {
@@ -103,18 +118,71 @@ input[type="text"], input[type="number"], textarea {
 button[type="submit"], .clear-button, .tab button, #displayAllButton {
     background-color: #00ff00;
     color: black;
-    padding: 10px 16px;  /* Same padding for all buttons */
+    padding: 10px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    margin: 10px; /* Added more spacing */
 }
 
 button[type="submit"]:hover, .clear-button:hover, .tab button:hover, #displayAllButton:hover {
     background-color: black;
     color: #00ff00;
     border: 1px solid #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+/* SCP Entries Styling */
+.scp-entry {
+    border: 1px solid #00ff00;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #111;
+    color: #00ff00;
+    border-radius: 5px;
+    transition: box-shadow 0.2s ease;
+}
+
+/* SCP Images */
+.scp-image {
+    max-width: 150px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+    border: 1px solid #00ff00;
+}
+
+.scp-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+/* Modal for enlarging images */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.modal-content {
+    margin: 10% auto;
+    display: block;
+    max-width: 80%;
+    position: relative; /* Ensure content is positioned relative to modal */
+}
+
+.close {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 /* Result Boxes */
@@ -124,4 +192,5 @@ button[type="submit"]:hover, .clear-button:hover, .tab button:hover, #displayAll
     background-color: #111;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    transition: box-shadow 0.2s ease;
 }

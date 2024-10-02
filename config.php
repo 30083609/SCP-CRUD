@@ -1,9 +1,9 @@
 <?php
 // config.php - Contains database connection details
-$servername = "";
-$username = "";
-$password = "";
-$database = "";
+$servername = "*DATABASE (localhost)*";
+$username = "DATABASE USERNAME";
+$password = "*PASSWORD*";
+$database = "*DATABASE*";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);

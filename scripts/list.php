@@ -1,46 +1,42 @@
 <?php
-// Enable error reporting for debugging (disable in production)
+// Enable error reporting for debugging (remove in production)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include the config.php file for database connection
+// Include your database connection
 require_once __DIR__ . '/../config.php';
 
-// Query to fetch all SCP entries and their associated images
-$query = "SELECT * FROM scp_subjects";
+// Initialize an empty array to hold the SCP entries
+$scp_entries = [];
+
+// Query to fetch all SCP entries from the database without the image field
+$query = "SELECT scp_id, title, object_class, description, procedures FROM scp_subjects";  // Exclude 'images'
 $result = $conn->query($query);
 
+// Check if the query was successful
 if ($result && $result->num_rows > 0) {
-    echo "<ul>";
+    // Fetch all rows as associative arrays and push to $scp_entries array
     while ($row = $result->fetch_assoc()) {
-        $scp_number = isset($row['scp_id']) ? htmlspecialchars($row['scp_id']) : 'Unknown ID';
-        $title = isset($row['title']) ? htmlspecialchars($row['title']) : 'Untitled';
-        $object_class = isset($row['object_class']) ? htmlspecialchars($row['object_class']) : 'Unknown Class';
-        $description = isset($row['description']) ? htmlspecialchars($row['description']) : 'No description available';
-        $procedures = isset($row['procedures']) ? htmlspecialchars($row['procedures']) : 'No procedures available';
-        $image_path = isset($row['images']) ? htmlspecialchars($row['images']) : '';
-
-        // Display each SCP entry with its details
-        echo "<li>";
-        echo "<h3>$title ($scp_number)</h3>";
-        echo "<p><strong>Object Class:</strong> $object_class</p>";
-        echo "<p><strong>Description:</strong> $description</p>";
-        echo "<p><strong>Special Containment Procedures:</strong> $procedures</p>";
-
-        // Check if an image exists
-        if (!empty($image_path)) {
-            echo "<img src='/$image_path' alt='$scp_number Image' style='max-width:150px; height:auto;' />";
-        } else {
-            echo "<p>No image available for $scp_number</p>";
-        }
-
-        echo "</li>";
+        $scp_entries[] = [
+            'scp_id' => $row['scp_id'],
+            'title' => $row['title'],
+            'object_class' => $row['object_class'],
+            'description' => $row['description'],
+            'procedures' => $row['procedures']
+        ];
     }
-    echo "</ul>";
 } else {
-    echo "<p>No SCP entries found.</p>";
+    // Optional: Handle no results
+    http_response_code(404);
+    $scp_entries = ['message' => 'No SCP entries found.'];
 }
+
+// Set content type to JSON
+header('Content-Type: application/json');
+
+// Output JSON
+echo json_encode($scp_entries);
 
 // Close the database connection
 $conn->close();

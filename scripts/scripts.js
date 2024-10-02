@@ -1,32 +1,37 @@
 // Function to handle tab switching
-function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none"; // Hide all tab contents
+function openTab(tabName) {
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    var tablinks = document.getElementsByClassName("tablinks");
+
+    // Hide all tab contents
+    for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", ""); // Remove active class
+
+    // Remove 'active' class from all tablinks
+    for (var j = 0; j < tablinks.length; j++) {
+        tablinks[j].classList.remove("active");
     }
-    document.getElementById(tabName).style.display = "block"; // Show selected tab
-    evt.currentTarget.className += " active"; // Mark current tab active
+
+    // Show the selected tab, if it exists
+    var currentTab = document.getElementById(tabName);
+    if (currentTab) {
+        currentTab.style.display = "block";
+    }
 }
 
-// Show CRUD interface when clicking on header
-function showCRUD() {
-    document.getElementById('Home').style.display = 'none';
-    document.getElementById('crud-container').style.display = 'block';
-}
-
-// Load the Home tab (image) by default
-document.addEventListener("DOMContentLoaded", function () {
-    openTab(event, 'Home');  // Automatically open Home tab on load
-});
-
-
-// Handle AJAX form submissions
 $(document).ready(function () {
+    // Open the Home tab by default
+    openTab('Home');
+
+    // Handle tab click events
+    $('.tablinks').on('click', function () {
+        var tabName = $(this).data('tab');
+        openTab(tabName);
+        $(this).addClass('active');
+    });
+
+    // Handle form submissions for CRUD actions
     function handleAjaxFormSubmission(formSelector, url, resultSelector) {
         $(formSelector).submit(function (event) {
             event.preventDefault();
@@ -39,6 +44,7 @@ $(document).ready(function () {
                 contentType: false,
                 success: function (response) {
                     $(resultSelector).html(response);
+                    $(formSelector)[0].reset(); // Clear form after submission
                 },
                 error: function (xhr, status, error) {
                     console.error("Error occurred: " + error);
@@ -48,21 +54,54 @@ $(document).ready(function () {
         });
     }
 
-    // Handle form submissions for CRUD actions
+    // Handle form submissions for each CRUD action
     handleAjaxFormSubmission("#createForm", "scripts/create.php", "#createResult");
     handleAjaxFormSubmission("#readForm", "scripts/read.php", "#readResult");
     handleAjaxFormSubmission("#updateForm", "scripts/update.php", "#updateResult");
     handleAjaxFormSubmission("#deleteForm", "scripts/delete.php", "#deleteResult");
 
-    // Display all SCPs on button click
+    // Clear form functionality
+    $(".clear-button").click(function () {
+        var formId = $(this).closest("form").attr("id");
+        document.getElementById(formId).reset();
+
+        // Clear all result displays
+        $("#allResults").html(""); 
+        $("#readResult").html("");
+        $("#createResult").html("");
+        $("#updateResult").html("");
+        $("#deleteResult").html("");
+    });
+
+    // Display all SCPs on button click (without images)
     $("#displayAllButton").click(function () {
         const allResults = $("#allResults");
         const displayButton = $("#displayAllButton");
+
         if (allResults.css("display") === "none" || allResults.html() === "") {
             $.ajax({
-                url: "scripts/list.php",
+                url: "scripts/list.php", // This file excludes images now
+                dataType: 'json',
                 success: function (data) {
-                    allResults.html(data);
+                    // Clear previous results
+                    allResults.html('');
+
+                    // Check if data is an array and loop through each SCP
+                    if (Array.isArray(data)) {
+                        data.forEach(function (scp) {
+                            const scpDiv = `
+                                <div class="scp-entry">
+                                    <h3>${scp.title} (${scp.scp_id})</h3>
+                                    <p><strong>Object Class:</strong> ${scp.object_class}</p>
+                                    <p><strong>Description:</strong> ${scp.description}</p>
+                                    <p><strong>Special Containment Procedures:</strong> ${scp.procedures}</p>
+                                </div>`;
+                            allResults.append(scpDiv);
+                        });
+                    } else {
+                        allResults.html("<p>No SCP entries found.</p>");
+                    }
+
                     displayButton.text("Hide All SCPs");
                     allResults.show();
                 },
@@ -74,43 +113,5 @@ $(document).ready(function () {
             allResults.hide();
             displayButton.text("Display All SCPs");
         }
-    });
-
-    // Function to clear all fields in a form and clear SCP data
-    function clearForm(formId) {
-        document.getElementById(formId).reset(); // Reset the form fields
-        $("#allResults").html("");  // Clear the Display All SCPs section
-        $("#readResult").html("");  // Clear the Read SCP result section
-    }
-
-    // Apply this clear function to each form's reset (Clear All) button
-    $("#createForm .clear-button").click(function () {
-        clearForm("createForm");
-    });
-    $("#readForm .clear-button").click(function () {
-        clearForm("readForm");
-    });
-    $("#updateForm .clear-button").click(function () {
-        clearForm("updateForm");
-    });
-    $("#deleteForm .clear-button").click(function () {
-        clearForm("deleteForm");
-    });
-
-    // Enable or disable form fields based on checkbox selection in the update form
-    $("#update_title_check").change(function () {
-        $("#update_title").prop("disabled", !this.checked);
-    });
-    $("#update_object_class_check").change(function () {
-        $("#update_object_class").prop("disabled", !this.checked);
-    });
-    $("#update_description_check").change(function () {
-        $("#update_description").prop("disabled", !this.checked);
-    });
-    $("#update_procedures_check").change(function () {
-        $("#update_procedures").prop("disabled", !this.checked);
-    });
-    $("#update_image_check").change(function () {
-        $("#update_image").prop("disabled", !this.checked);
     });
 });
